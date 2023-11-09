@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+</script>
+<head>
+    <title>Artist Album Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Artist Album Finder</h1>
+    <input type="text" id="artist" placeholder="Enter artist name">
+    <button onclick="getAlbums()">Search</button>
+    <div id="result"></div>
+
+    <script>
+        function getAlbums() {
+            const artist = document.getElementById('artist').value;
+            fetch(`http://localhost:9090/itunes/albums/?artist=${artist}`)
+                .then(
+                    response => response.json())
+                .then(data => {
+                    let html = '';
+                    data.forEach(album => {
+                        html += `<p><a href="${album.url}">${album.name}</a></p>`;
+                    });
+                    document.getElementById('result').innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
